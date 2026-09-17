@@ -1,0 +1,3 @@
+[submodule "lavender-cultivator"]
+	path = lavender-cultivator
+	url = ../lavender-cultivator.git

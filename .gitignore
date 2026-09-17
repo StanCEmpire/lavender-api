@@ -1,0 +1,11 @@
+# IDE Files
+.idea
+# Gradle Files
+.gradle
+# Build Files
+build
+# MC Cache
+mcCache
+mcBuildCache
+# MC Files
+src/minecraft

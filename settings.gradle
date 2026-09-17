@@ -1,0 +1,4 @@
+pluginManagement {
+    includeBuild 'lavender-cultivator'
+}
+rootProject.name = 'lavender-api'

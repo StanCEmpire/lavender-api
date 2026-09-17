@@ -1,0 +1,85 @@
+plugins {
+    id 'java-library'
+    id 'lavender-cultivator'
+}
+
+cultivator {
+    config {
+        minecraftVersion='26.2'
+        cacheDir=project.projectDir.toString() + "/mcCache"
+        devDir=project.projectDir.toString() + "/src/minecraft"
+        patchDir=project.projectDir.toString() + "/src/patch"
+        compileDir=project.projectDir.toString() + "/mcBuildCache"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+// Register custom tasks
+var apiPatchesDirectory = new File(CultivatorConfiguredPaths.patchDirectory.toString() + "/api")
+if(!apiPatchesDirectory.exists())
+{
+    apiPatchesDirectory.mkdirs()
+}
+var apiPatchedDirectory = new File(CultivatorConfiguredPaths.devDirectory.toString() + "/api")
+var applyApiPatchesTask = project.tasks.register("applyApiPatches", ApplyPatchesTask) {
+    group = "lavender-api"
+    baseDirectory = CultivatorTasks.applyBasePatchesTask.get().getPatchedDirectory()
+    patchesDirectory = apiPatchesDirectory
+    patchedDirectory = apiPatchedDirectory
+}
+var generateApiPatchesTask = project.tasks.register("generateApiPatches", GeneratePatchesTask) {
+    group = "lavender-api"
+    directoryA = CultivatorConfiguredPaths.basePatchedDirectory
+    directoryB = apiPatchedDirectory
+    outputDirectory = apiPatchesDirectory
+}
+var compileApiPatchedMinecraft = project.tasks.register("compileApiPatchedMinecraft", JavaCompile) {
+    group = "lavender-api"
+    source = project.fileTree(dir: applyApiPatchesTask.get().getPatchedDirectory(), include: "**/*.java")
+    destinationDirectory = new File(CultivatorConfiguredPaths.compileDirectory.toString() + "/buildApi")
+    classpath = project.configurations.named(CultivatorBuildConstants.MINECRAFT_DEPENDENCIES_CONFIGURATION_NAME).get()
+    options.compilerArgs << "-Xmaxerrs" << "9999999"
+}
+var jarApiPatchedMinecraft = project.tasks.register("jarApiPatchedMinecraft", Jar) {
+    group = "lavender-api"
+    archiveBaseName = "VanillaPatched"
+    destinationDirectory = new File(CultivatorConfiguredPaths.compileDirectory.toString() + "/binApi")
+    from(compileApiPatchedMinecraft.get().getDestinationDirectory())
+    include("**/*.class")
+}
+
+// Configure sourceSets
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+            include '**/*.java'
+        }
+    }
+    base {
+        java {
+            srcDirs = [CultivatorConfiguredPaths.basePatchedDirectory.toString()]
+            include '**/*.java'
+            compileClasspath = project.configurations.named(CultivatorBuildConstants.MINECRAFT_DEPENDENCIES_CONFIGURATION_NAME).get()
+        }
+    }
+    api {
+        java {
+            srcDirs = [apiPatchedDirectory.toString()]
+            include '**/*.java'
+            compileClasspath = project.configurations.named(CultivatorBuildConstants.MINECRAFT_DEPENDENCIES_CONFIGURATION_NAME).get()
+        }
+    }
+}
