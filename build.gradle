@@ -5,7 +5,7 @@ plugins {
 
 cultivator {
     config {
-        minecraftVersion='26.2'
+        minecraftVersion='26.3'
         cacheDir=project.projectDir.toString() + "/mcCache"
         devDir=project.projectDir.toString() + "/src/minecraft"
         patchDir=project.projectDir.toString() + "/src/patch"

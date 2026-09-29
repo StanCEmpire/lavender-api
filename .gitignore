@@ -9,3 +9,5 @@ mcCache
 mcBuildCache
 # MC Files
 src/minecraft
+# Base Patch
+src/patch/base
