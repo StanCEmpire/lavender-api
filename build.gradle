@@ -60,26 +60,41 @@ var jarApiPatchedMinecraft = project.tasks.register("jarApiPatchedMinecraft", Ja
     include("**/*.class")
 }
 
+var executeMinectaftTask = project.tasks.register("executeMinecraft", JavaExec) {
+   group = "lavender-api"
+   classpath += sourceSets.api.runtimeClasspath
+   classpath += project.files(jarApiPatchedMinecraft.get().getDestinationDirectory())
+   mainClass = "stancempire.lavender.api.LavenderApi"
+   args += "--gameDir"
+   args += "mcGame"
+   args += "--accessToken"
+   args += "0"
+   args += "--version"
+   args += "26.3"
+}
+
 // Configure sourceSets
 sourceSets {
     main {
         java {
             srcDirs = ['src/main/java']
             include '**/*.java'
+            compileClasspath += project.configurations.named(CultivatorBuildConstants.MINECRAFT_DEPENDENCIES_CONFIGURATION_NAME).get()
         }
     }
     base {
         java {
             srcDirs = [CultivatorConfiguredPaths.basePatchedDirectory.toString()]
             include '**/*.java'
-            compileClasspath = project.configurations.named(CultivatorBuildConstants.MINECRAFT_DEPENDENCIES_CONFIGURATION_NAME).get()
+            compileClasspath += project.configurations.named(CultivatorBuildConstants.MINECRAFT_DEPENDENCIES_CONFIGURATION_NAME).get()
         }
     }
     api {
         java {
             srcDirs = [apiPatchedDirectory.toString()]
             include '**/*.java'
-            compileClasspath = project.configurations.named(CultivatorBuildConstants.MINECRAFT_DEPENDENCIES_CONFIGURATION_NAME).get()
+            compileClasspath += project.configurations.named(CultivatorBuildConstants.MINECRAFT_DEPENDENCIES_CONFIGURATION_NAME).get()
+            runtimeClasspath += sourceSets.main.runtimeClasspath
         }
     }
 }
