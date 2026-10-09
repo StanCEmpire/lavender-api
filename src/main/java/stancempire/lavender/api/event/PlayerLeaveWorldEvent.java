@@ -2,7 +2,7 @@ package stancempire.lavender.api.event;
 
 import net.minecraft.server.level.ServerPlayer;
 
-public class PlayerLeaveWorldEvent implements Event
+public class PlayerLeaveWorldEvent extends Event
 {
     private ServerPlayer serverPlayer;
 
@@ -17,7 +17,8 @@ public class PlayerLeaveWorldEvent implements Event
     }
 
     @Override
-    public boolean cancellable() {
+    public boolean isCancellable()
+    {
         return false;
     }
 }
