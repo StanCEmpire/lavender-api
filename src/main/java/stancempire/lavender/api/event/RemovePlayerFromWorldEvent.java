@@ -1,14 +1,10 @@
-package stancempire.lavender.api.event.events;
+package stancempire.lavender.api.event;
 
 import net.minecraft.server.level.ServerPlayer;
 
-public class RemovePlayerFromWorldEvent extends Event<RemovePlayerFromWorldEvent>
+public class RemovePlayerFromWorldEvent extends Event
 {
-    private ServerPlayer serverPlayer;
-    private static void foo(RemovePlayerFromWorldEvent event)
-    {
-
-    }
+    private final ServerPlayer serverPlayer;
 
     public RemovePlayerFromWorldEvent(ServerPlayer serverPlayer)
     {
