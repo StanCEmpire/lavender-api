@@ -50,6 +50,7 @@ var compileApiPatchedMinecraft = project.tasks.register("compileApiPatchedMinecr
     source = project.fileTree(dir: applyApiPatchesTask.get().getPatchedDirectory(), include: "**/*.java")
     destinationDirectory = new File(CultivatorConfiguredPaths.compileDirectory.toString() + "/buildApi")
     classpath = project.configurations.named(CultivatorBuildConstants.MINECRAFT_DEPENDENCIES_CONFIGURATION_NAME).get()
+    classpath += sourceSets.main.runtimeClasspath
     options.compilerArgs << "-Xmaxerrs" << "9999999"
 }
 var jarApiPatchedMinecraft = project.tasks.register("jarApiPatchedMinecraft", Jar) {
@@ -94,6 +95,7 @@ sourceSets {
             srcDirs = [apiPatchedDirectory.toString()]
             include '**/*.java'
             compileClasspath += project.configurations.named(CultivatorBuildConstants.MINECRAFT_DEPENDENCIES_CONFIGURATION_NAME).get()
+            compileClasspath += sourceSets.main.runtimeClasspath
             runtimeClasspath += sourceSets.main.runtimeClasspath
         }
     }
