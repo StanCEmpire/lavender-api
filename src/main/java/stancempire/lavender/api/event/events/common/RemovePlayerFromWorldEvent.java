@@ -1,4 +1,4 @@
-package stancempire.lavender.api.event.events.server;
+package stancempire.lavender.api.event.events.common;
 
 import net.minecraft.server.level.ServerPlayer;
 import stancempire.lavender.api.event.Event;

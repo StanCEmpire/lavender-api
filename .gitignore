@@ -10,5 +10,6 @@ mcBuildCache
 # MC Files
 src/minecraft
 mcGame
+logs
 # Base Patch
 src/patch/base
