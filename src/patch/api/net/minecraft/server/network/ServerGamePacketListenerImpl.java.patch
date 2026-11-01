@@ -1,0 +1,4 @@
+--- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -1525,0 +1525,1 @@
++      stancempire.lavender.api.common.CommonGameHooks.onRemovePlayerFromWorld(this.player);

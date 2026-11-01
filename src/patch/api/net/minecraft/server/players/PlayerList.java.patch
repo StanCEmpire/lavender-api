@@ -1,0 +1,4 @@
+--- a/net/minecraft/server/players/PlayerList.java
++++ b/net/minecraft/server/players/PlayerList.java
+@@ -148,0 +148,1 @@
++      stancempire.lavender.api.common.CommonGameHooks.onPlaceNewPlayer(player);
