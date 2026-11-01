@@ -1,6 +1,7 @@
-package stancempire.lavender.api.event;
+package stancempire.lavender.api.event.events.server;
 
 import net.minecraft.server.level.ServerPlayer;
+import stancempire.lavender.api.event.Event;
 
 public class PlayerJoinWorldEvent extends Event
 {
