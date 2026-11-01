@@ -61,7 +61,7 @@ var jarApiPatchedMinecraft = project.tasks.register("jarApiPatchedMinecraft", Ja
     include("**/*.class")
 }
 
-var executeMinectaftTask = project.tasks.register("executeMinecraft", JavaExec) {
+var executeMinecraftTask = project.tasks.register("executeMinecraft", JavaExec) {
    group = "lavender-api"
    classpath += sourceSets.api.runtimeClasspath
    classpath += project.files(jarApiPatchedMinecraft.get().getDestinationDirectory())
